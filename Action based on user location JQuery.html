@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Action based on user location JQuery or JavaScript</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
+  </head>
+  <body>
+    <div id="banner">
+      <img
+        style="width: 300px; height: 300px; margin-bottom: 20px;"
+        src="https://upload.wikimedia.org/wikipedia/commons/f/f9/Phoenicopterus_ruber_in_S%C3%A3o_Paulo_Zoo.jpg"
+      />
+    </div>
+
+    <h2 id="userCurrentIP">IP:</h2>
+
+    <h2 id="userCurrentCountry">Country:</h2>
+
+    <h2 id="userCurrentCountryCode">Country Code:</h2>
+
+    <h2 id="userCurrentCity">City:</h2>
+
+    <script type="text/javascript">
+      var ip;
+      var access_key = "13c4cef2096d5832989b48e05fa41f1a";
+
+      // Getting user IP
+      $.getJSON("https://api.ipify.org/?format=json", function (data) {
+        ip = data.ip;
+
+        // Get user info
+        $.getJSON(
+          "http://api.ipapi.com/api/" + ip + "?access_key=" + access_key,
+          function (data) {
+            var country = data.country_name;
+
+            var countryCode = data.country_code;
+
+            var city = data.city;
+
+            $("#userCurrentCountry").append(country);
+
+            $("#userCurrentCountryCode").append(countryCode);
+
+            $("#userCurrentIP").append(ip);
+
+            $("#userCurrentCity").append(city);
+
+            // If country is US then hide the image
+
+            if (countryCode == "US") {
+              $("#banner").hide();
+            } else {
+              $("#banner").show();
+            }
+          }
+        );
+      });
+    </script>
+  </body>
+</html>
